@@ -1,0 +1,179 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                    String   @id @default(cuid())
+  email                 String   @unique
+  name                  String?
+  avatar_url            String?
+  theme                 String   @default("system") // "light" | "dark" | "system"
+  timezone              String   @default("UTC")
+
+  // Preferences
+  pomodoro_work_mins    Int      @default(25)
+  pomodoro_break_mins   Int      @default(5)
+  daily_goal_minutes    Int      @default(120)
+  weekly_goal_minutes   Int      @default(600)
+
+  // Relations
+  tasks                 Task[]
+  work_types            WorkType[]
+  tags                  Tag[]
+  focus_sessions        FocusSession[]
+  progress_entries      ProgressEntry[]
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@map("users")
+}
+
+model WorkType {
+  id                    String   @id @default(cuid())
+  user_id               String
+  user                  User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  name                  String   // "Deep work", "Meetings", etc.
+  color                 String   // hex color: #7c3aed
+  icon                  String   // icon name from lucide
+  is_default            Boolean  @default(false)
+  order                 Int      @default(0)
+
+  tasks                 Task[]
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@unique([user_id, name])
+  @@index([user_id])
+  @@map("work_types")
+}
+
+model Task {
+  id                    String   @id @default(cuid())
+  user_id               String
+  user                  User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  title                 String
+  notes                 String?  // markdown
+  status                String   @default("todo") // "todo" | "in_progress" | "done"
+  priority              String   @default("medium") // "low" | "medium" | "high" | "urgent"
+
+  work_type_id          String
+  work_type             WorkType @relation(fields: [work_type_id], references: [id], onDelete: Cascade)
+
+  due_date              DateTime?
+  due_time              String?  // "14:30"
+
+  estimated_minutes     Int?     // time estimate
+  completed_at          DateTime?
+
+  // Relations
+  subtasks              Subtask[]
+  tags                  Tag[]    @relation("TaskTags")
+  focus_sessions        FocusSession[]
+
+  // Recurrence
+  recurrence            String?  // "daily" | "weekly" | "custom"
+  recurrence_pattern    Json?    // custom recurrence config
+
+  // UI state
+  order                 Int      @default(0) // for manual sorting
+  is_pinned             Boolean  @default(false)
+  is_deleted            Boolean  @default(false)
+  deleted_at            DateTime?
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@index([user_id])
+  @@index([work_type_id])
+  @@index([status])
+  @@index([due_date])
+  @@map("tasks")
+}
+
+model Subtask {
+  id                    String   @id @default(cuid())
+  task_id               String
+  task                  Task     @relation(fields: [task_id], references: [id], onDelete: Cascade)
+
+  title                 String
+  is_completed          Boolean  @default(false)
+  order                 Int      @default(0)
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@index([task_id])
+  @@map("subtasks")
+}
+
+model Tag {
+  id                    String   @id @default(cuid())
+  user_id               String
+  user                  User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  name                  String
+  color                 String?  // optional tag color
+
+  tasks                 Task[]   @relation("TaskTags")
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@unique([user_id, name])
+  @@index([user_id])
+  @@map("tags")
+}
+
+model FocusSession {
+  id                    String   @id @default(cuid())
+  user_id               String
+  user                  User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  task_id               String?
+  task                  Task?    @relation(fields: [task_id], references: [id], onDelete: SetNull)
+
+  work_type_id          String?
+
+  duration_minutes      Int      // actual focused time
+  started_at            DateTime
+  ended_at              DateTime
+  was_completed         Boolean  @default(false) // full session or paused
+
+  created_at            DateTime @default(now())
+
+  @@index([user_id])
+  @@index([task_id])
+  @@index([started_at])
+  @@map("focus_sessions")
+}
+
+model ProgressEntry {
+  id                    String   @id @default(cuid())
+  user_id               String
+  user                  User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  date                  DateTime @default(now())
+  completed_tasks       Int      @default(0)
+  completed_minutes     Int      @default(0) // from focus sessions
+  goal_minutes          Int      @default(0)
+
+  streak_days           Int      @default(0)
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@unique([user_id, date])
+  @@index([user_id])
+  @@index([date])
+  @@map("progress_entries")
+}
