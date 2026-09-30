@@ -16,10 +16,13 @@ export async function POST(request: NextRequest) {
 
     const session = await prisma.focusSession.create({
       data: {
-        ...validated,
         user_id: user.id,
         started_at: new Date(),
-        ended_at: new Date(Date.now() + validated.duration_minutes * 60 * 1000),
+        ended_at: new Date(Date.now() + (validated.duration_minutes || 25) * 60 * 1000),
+        duration_minutes: validated.duration_minutes,
+        work_type_id: validated.work_type_id,
+        task_id: validated.task_id,
+        was_completed: validated.was_completed,
       },
     })
 

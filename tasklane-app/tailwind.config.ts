@@ -1,4 +1,3 @@
-// tailwind.config.ts
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -7,11 +6,42 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: ['class'],
   theme: {
     extend: {
       colors: {
-        // Primary
-        'accent': '#7c3aed',
+        accent: {
+          DEFAULT: '#7c3aed',
+          hover: '#6d28d9',
+          light: '#a78bfa',
+          muted: 'rgba(124, 58, 237, 0.12)',
+          glow: 'rgba(124, 58, 237, 0.35)',
+        },
+        bg: {
+          DEFAULT: 'var(--color-bg)',
+          elevated: 'var(--color-bg-elevated)',
+        },
+        surface: {
+          DEFAULT: 'var(--color-surface)',
+          hover: 'var(--color-surface-hover)',
+          active: 'var(--color-surface-active)',
+          subtle: 'var(--color-surface-subtle)',
+        },
+        border: {
+          DEFAULT: 'var(--color-border)',
+          hover: 'var(--color-border-hover)',
+          subtle: 'var(--color-border-subtle)',
+        },
+        primary: {
+          DEFAULT: 'var(--color-primary)',
+          foreground: 'var(--color-primary-foreground)',
+        },
+        secondary: {
+          DEFAULT: 'var(--color-secondary)',
+        },
+        muted: {
+          DEFAULT: 'var(--color-muted)',
+        },
 
         // Work types
         'deep-work': '#06b6d4',
@@ -21,62 +51,28 @@ const config: Config = {
         'personal': '#ec4899',
 
         // Semantic
-        'success': '#22c55e',
-        'warning': '#f59e0b',
-        'error': '#ef4444',
-
-        // Neutrals
-        'bg': '#fafaf9',
-        'surface': '#ffffff',
-        'border': '#e7e5e3',
+        success: '#10b981',
+        warning: '#f59e0b',
+        error: '#f43f5e',
+        info: '#3b82f6',
       },
       fontFamily: {
-        display: ['Bricolage Grotesque', 'sans-serif'],
-        body: ['Instrument Sans', 'sans-serif'],
-        mono: ['IBM Plex Mono', 'monospace'],
+        display: ['Bricolage Grotesque', 'Instrument Sans', 'system-ui', 'sans-serif'],
+        body: ['Instrument Sans', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'IBM Plex Mono', 'monospace'],
       },
-      fontSize: {
-        'xs': ['12px', { lineHeight: '16px', letterSpacing: '0.5px' }],
-        'sm': ['14px', { lineHeight: '20px' }],
-        'base': ['16px', { lineHeight: '24px' }],
-        'lg': ['18px', { lineHeight: '28px' }],
-        'xl': ['20px', { lineHeight: '28px' }],
-        '2xl': ['24px', { lineHeight: '32px', fontWeight: '600' }],
-        '3xl': ['32px', { lineHeight: '40px', fontWeight: '700' }],
-        '4xl': ['40px', { lineHeight: '48px', fontWeight: '700' }],
-      },
-      spacing: {
-        '0': '0',
-        '1': '4px',
-        '2': '8px',
-        '3': '12px',
-        '4': '16px',
-        '5': '20px',
-        '6': '24px',
-        '8': '32px',
-        '10': '40px',
-        '12': '48px',
-        '16': '64px',
-        '20': '80px',
+      boxShadow: {
+        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'premium': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+        'glow': '0 0 20px -2px rgba(124, 58, 237, 0.3)',
+        'glow-sm': '0 0 10px -1px rgba(124, 58, 237, 0.25)',
       },
       borderRadius: {
-        'none': '0',
-        'sm': '4px',
-        'md': '8px',
-        'lg': '12px',
-        'xl': '16px',
-        'full': '9999px',
+        'xl': '14px',
+        '2xl': '18px',
       },
       animation: {
-        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'spin': 'spin 1s linear infinite',
-        'bounce': 'bounce 1s infinite',
-      },
-      keyframes: {
-        pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '.5' },
-        },
+        'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },

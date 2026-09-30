@@ -6,16 +6,17 @@ import { getCurrentUser } from '@/lib/auth/server'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const task = await prisma.task.findUniqueOrThrow({
-      where: { id: params.id },
+      where: { id },
       include: {
         subtasks: true,
         tags: true,
@@ -38,9 +39,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -48,7 +50,7 @@ export async function PATCH(
 
     // Verify ownership
     const existing = await prisma.task.findUniqueOrThrow({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (existing.user_id !== user.id) {
@@ -59,8 +61,17 @@ export async function PATCH(
     const validated = taskSchema.partial().parse(body)
 
     const task = await prisma.task.update({
-      where: { id: params.id },
-      data: validated,
+      where: { id },
+      data: {
+        title: validated.title,
+        notes: validated.notes,
+        status: validated.status,
+        priority: validated.priority,
+        due_date: validated.due_date,
+        due_time: validated.due_time,
+        estimated_minutes: validated.estimated_minutes,
+        recurrence: validated.recurrence,
+      },
       include: {
         subtasks: true,
         tags: true,
@@ -77,9 +88,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const user = await getCurrentUser()
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -87,7 +99,7 @@ export async function DELETE(
 
     // Verify ownership
     const task = await prisma.task.findUniqueOrThrow({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (task.user_id !== user.id) {
@@ -96,7 +108,7 @@ export async function DELETE(
 
     // Soft delete
     await prisma.task.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         is_deleted: true,
         deleted_at: new Date(),
@@ -109,3 +121,4 @@ export async function DELETE(
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 }
+

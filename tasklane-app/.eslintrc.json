@@ -1,8 +1,7 @@
 // .eslintrc.json
 {
   "extends": [
-    "next/core-web-vitals",
-    "prettier"
+    "next/core-web-vitals"
   ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
@@ -11,3 +10,4 @@
     "@next/next/no-img-element": "warn"
   }
 }
+

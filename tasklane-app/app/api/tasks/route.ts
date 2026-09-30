@@ -49,8 +49,16 @@ export async function POST(request: NextRequest) {
 
     const task = await prisma.task.create({
       data: {
-        ...validated,
         user_id: user.id,
+        title: validated.title || '',
+        notes: validated.notes,
+        status: validated.status || 'todo',
+        priority: validated.priority || 'medium',
+        work_type_id: validated.work_type_id,
+        due_date: validated.due_date,
+        due_time: validated.due_time,
+        estimated_minutes: validated.estimated_minutes,
+        recurrence: validated.recurrence,
       },
       include: {
         subtasks: true,

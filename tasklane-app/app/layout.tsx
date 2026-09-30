@@ -1,16 +1,21 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 import Providers from '@/components/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#7c3aed',
+}
+
 export const metadata: Metadata = {
   title: 'Tasklane – Premium Productivity',
   description: 'A keyboard-first to-do list for planning, prioritizing, and completing work.',
-  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
   manifest: '/manifest.json',
-  themeColor: '#7c3aed',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
