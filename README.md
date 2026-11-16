@@ -1,14 +1,9 @@
-# Tempo
+# Rock Paper Scissors
 
-Tempo is a local-first task manager focused on quick capture and calm daily planning.
+A responsive Rock Paper Scissors game with two modes:
 
-## Features
-
-- Add tasks with a natural-language quick-add field. Supported patterns include `today`, `tomorrow`, `next week`, `in 3 days`, weekdays, `for 90m`, `#tags`, `@projects`, and priorities `p1`–`p4`.
-- Organize tasks by project and area, with due dates, estimates, priorities, and tags.
-- Search and filter tasks by all, today, upcoming, or completed.
-- Keep tasks in browser `localStorage`; no account or server is required.
-- Responsive interface built with React, TypeScript, Vite, and Tailwind CSS.
+- **Classic Match:** first to three wins takes the match.
+- **Mystery Challenge:** reach a randomly selected secret goal of three to seven wins. The goal stays hidden until you reach it; losses and ties do not end the run.
 
 ## Requirements
 
@@ -31,7 +26,3 @@ npm run lint
 npm test
 npm run build
 ```
-
-## Data and limitations
-
-Tasks are stored in the browser on the current device. Clearing site data removes them; this version does not yet provide cloud sync, import/export, or multi-device backup.
