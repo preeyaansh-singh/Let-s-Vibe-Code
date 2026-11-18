@@ -107,33 +107,33 @@ function App() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden px-4 py-10 text-slate-100 sm:px-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,211,238,0.12),transparent_55%)]" />
-      <div className="relative mx-auto max-w-3xl">
-        <header className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-300">
-            The ultimate showdown
+    <main className="min-h-screen px-4 py-8 text-stone-100 sm:px-6 sm:py-12">
+      <div className="mx-auto max-w-xl">
+        <header className="mb-7 text-center sm:mb-9">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-orange-200/20 bg-orange-300/10 text-2xl shadow-inner">
+            🦊
+          </div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-orange-200/70">
+            A little friendly game
           </p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight text-white sm:text-6xl">
-            Rock <span className="text-cyan-300">Paper</span> Scissors
+          <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-[#fff5e6] sm:text-5xl">
+            Rock, Paper <span className="text-[#e7a260]">&amp;</span> Scissors
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
-            Read the moment, pick your move, and see if you can outsmart the computer.
-          </p>
+          <p className="mt-2 text-sm text-stone-400">Come in, take a seat, and play a round.</p>
         </header>
 
-        <section
+        <nav
           aria-label="Game mode"
-          className="mx-auto mt-8 grid max-w-md grid-cols-2 rounded-2xl border border-white/10 bg-slate-900/80 p-1.5"
+          className="mx-auto mb-4 grid max-w-sm grid-cols-2 rounded-xl border border-white/[0.07] bg-[#252522] p-1"
         >
           <button
             type="button"
             aria-pressed={mode === 'classic'}
             onClick={() => selectMode('classic')}
-            className={`rounded-xl px-4 py-3 text-sm font-semibold transition ${
+            className={`rounded-lg px-3 py-2.5 text-sm transition ${
               mode === 'classic'
-                ? 'bg-cyan-400 text-slate-950 shadow-lg shadow-cyan-950/30'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#e7a260] font-semibold text-[#30231a] shadow-sm'
+                : 'text-stone-400 hover:text-stone-100'
             }`}
           >
             Classic Match
@@ -142,91 +142,95 @@ function App() {
             type="button"
             aria-pressed={mode === 'mystery'}
             onClick={() => selectMode('mystery')}
-            className={`rounded-xl px-4 py-3 text-sm font-semibold transition ${
+            className={`rounded-lg px-3 py-2.5 text-sm transition ${
               mode === 'mystery'
-                ? 'bg-violet-400 text-slate-950 shadow-lg shadow-violet-950/30'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#e7a260] font-semibold text-[#30231a] shadow-sm'
+                : 'text-stone-400 hover:text-stone-100'
             }`}
           >
             Mystery Challenge
           </button>
-        </section>
+        </nav>
 
-        <section className="mt-5 rounded-3xl border border-white/10 bg-slate-900/70 p-5 text-center shadow-2xl shadow-black/20 sm:p-7">
-          {mode === 'classic' ? (
-            <p className="text-sm text-slate-300">
-              First to {CLASSIC_TARGET} wins takes the match.
-            </p>
-          ) : (
-            <p className="text-sm text-violet-200">
-              Reach a secret number of wins. Losses and ties never end your run.
-            </p>
-          )}
+        <section className="rounded-[1.75rem] border border-[#fff7e8]/10 bg-[#302e2a] p-5 text-center text-[#f3eadc] shadow-[0_24px_70px_rgba(0,0,0,0.28)] sm:p-8">
+          <p className="text-sm text-[#b8aa98]">
+            {mode === 'classic'
+              ? `First to ${CLASSIC_TARGET} wins takes the match.`
+              : 'Reach a secret number of wins. Losses and ties never end your run.'}
+          </p>
 
-          <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-5">
-            <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/5 px-2 py-4 sm:px-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200">
+          <div className="mt-5 grid grid-cols-3 divide-x divide-[#49443d] rounded-2xl border border-[#49443d] bg-[#272623] py-3">
+            <div className="px-2">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d89a61]">
                 You
               </p>
-              <p className="mt-1 text-4xl font-black tabular-nums text-white" aria-label="Your wins">
+              <p className="mt-1 font-serif text-3xl tabular-nums text-[#fff3e3]" aria-label="Your wins">
                 {score.player}
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-slate-950/50 px-2 py-4 sm:px-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                Draws
+            <div className="px-2">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a99c8b]">
+                Ties
               </p>
-              <p className="mt-1 text-4xl font-black tabular-nums text-slate-200">{score.draws}</p>
+              <p className="mt-1 font-serif text-3xl tabular-nums text-[#e2d6c6]">{score.draws}</p>
             </div>
-            <div className="rounded-2xl border border-rose-400/20 bg-rose-400/5 px-2 py-4 sm:px-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200">
-                Computer
+            <div className="px-2">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d89a61]">
+                Friend
               </p>
               <p
-                className="mt-1 text-4xl font-black tabular-nums text-white"
+                className="mt-1 font-serif text-3xl tabular-nums text-[#fff3e3]"
                 aria-label="Computer wins"
               >
                 {score.computer}
               </p>
             </div>
           </div>
-
-          <p className="mt-3 text-xs text-slate-500">{score.rounds} rounds played</p>
+          <p className="mt-2 text-xs text-[#a99c8b]">
+            {score.rounds} {score.rounds === 1 ? 'round' : 'rounds'} played
+          </p>
 
           <div
             role="status"
             aria-live="polite"
-            className={`mt-6 min-h-14 rounded-2xl border px-4 py-3 text-sm font-medium ${
+            className={`mt-5 rounded-xl border px-4 py-3 text-sm ${
               gameOver
                 ? playerWon
-                  ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200'
-                  : 'border-rose-400/30 bg-rose-400/10 text-rose-200'
-                : 'border-white/10 bg-slate-950/50 text-slate-300'
+                  ? 'border-[#a9b79a] bg-[#e7eddf] text-[#48593d]'
+                  : 'border-[#996b57] bg-[#49362f] text-[#edc0a9]'
+                : 'border-[#514a40] bg-[#39362f] text-[#c7bba9]'
             }`}
           >
             {statusMessage()}
           </div>
 
-          {lastRound && (
-            <div className="mt-5 flex items-center justify-center gap-5 text-sm" aria-label="Last round">
-              <p>
-                You: <span className="font-semibold text-white">{lastRound.player.label}</span>
-              </p>
-              <span className="text-slate-600" aria-hidden="true">
-                vs
-              </span>
-              <p>
-                Computer:{' '}
-                <span className="font-semibold text-white">{lastRound.computer.label}</span>
-              </p>
+          <div className="my-5 flex items-center justify-center gap-4 sm:gap-8" aria-label="Last round">
+            <div className="min-w-[5.5rem]">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#554c40] bg-[#39352f] text-4xl shadow-sm sm:h-20 sm:w-20 sm:text-5xl">
+                {lastRound?.player.symbol ?? '☕'}
+              </div>
+              <p className="mt-2 text-xs text-[#b8aa98]">You</p>
             </div>
+            <span className="font-serif text-sm italic text-[#b09b83]" aria-hidden="true">
+              {lastRound ? 'and' : 'ready?'}
+            </span>
+            <div className="min-w-[5.5rem]">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#554c40] bg-[#39352f] text-4xl shadow-sm sm:h-20 sm:w-20 sm:text-5xl">
+                {lastRound?.computer.symbol ?? '🦊'}
+              </div>
+              <p className="mt-2 text-xs text-[#b8aa98]">Your friend</p>
+            </div>
+          </div>
+
+          {lastRound && (
+            <p className="mb-4 text-xs text-[#b8aa98]">
+              {lastRound.player.label} against {lastRound.computer.label}
+            </p>
           )}
 
-          <div className="mt-7">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Choose your move
-            </p>
-            <div className="grid grid-cols-3 gap-3">
+          <div className="border-t border-[#49443d] pt-5">
+            <p className="mb-3 font-serif text-lg text-[#f0dfc8]">What will it be?</p>
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
               {CHOICES.map((choice) => (
                 <button
                   key={choice.id}
@@ -234,15 +238,12 @@ function App() {
                   aria-label={`Play ${choice.label}`}
                   disabled={gameOver}
                   onClick={() => play(choice)}
-                  className="group rounded-2xl border border-white/10 bg-slate-950/70 px-2 py-4 transition hover:-translate-y-1 hover:border-cyan-300/50 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 sm:py-5"
+                  className="group rounded-2xl border border-[#514a40] bg-[#39362f] px-2 py-3 transition hover:-translate-y-0.5 hover:border-[#d99a5c] hover:bg-[#443d33] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none sm:py-4"
                 >
-                  <span
-                    className="block text-4xl transition group-hover:scale-110 sm:text-5xl"
-                    aria-hidden="true"
-                  >
+                  <span className="block text-3xl transition-transform group-hover:scale-105 sm:text-4xl" aria-hidden="true">
                     {choice.symbol}
                   </span>
-                  <span className="mt-2 block text-sm font-semibold text-slate-200">
+                  <span className="mt-1.5 block text-sm font-medium text-[#e4d6c4]">
                     {choice.label}
                   </span>
                 </button>
@@ -254,15 +255,15 @@ function App() {
             <button
               type="button"
               onClick={startNewGame}
-              className="mt-6 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-200"
+              className="mt-5 rounded-xl bg-[#c7773d] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#ae6331] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c7773d] focus-visible:ring-offset-2"
             >
-              Play again
+              Let&apos;s play again
             </button>
           )}
         </section>
-        <p className="mt-5 text-center text-xs text-slate-600">
+        <p className="mt-5 text-center text-xs text-stone-500">
           {mode === 'mystery'
-            ? 'The mystery goal is randomly chosen for each new challenge.'
+            ? 'A new secret goal is picked every time you start over.'
             : 'Rock beats scissors · Paper beats rock · Scissors beats paper'}
         </p>
       </div>
