@@ -40,7 +40,7 @@ describe('Rock Paper Scissors', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Play Rock' }));
     fireEvent.click(screen.getByRole('button', { name: 'Play Rock' }));
     fireEvent.click(screen.getByRole('button', { name: 'Play Rock' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Play again' }));
+    fireEvent.click(screen.getByRole('button', { name: "Let's play again" }));
 
     expect(screen.getByText('0 rounds played')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Play Rock' })).toBeEnabled();
