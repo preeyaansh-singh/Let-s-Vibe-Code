@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import EclipseGame from './EclipseGame';
 
 type ChoiceId = 'rock' | 'paper' | 'scissors';
-type Mode = 'classic' | 'mystery';
+type Mode = 'classic' | 'mystery' | 'eclipse';
 type Outcome = 'win' | 'loss' | 'draw';
 
 type Choice = {
@@ -106,6 +107,10 @@ function App() {
     return lastRound.outcome === 'win' ? 'You win this round!' : 'The computer wins this round.';
   };
 
+  if (mode === 'eclipse') {
+    return <EclipseGame onBack={() => setMode('classic')} />;
+  }
+
   return (
     <main className="min-h-screen px-4 py-8 text-stone-100 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-xl">
@@ -124,7 +129,7 @@ function App() {
 
         <nav
           aria-label="Game mode"
-          className="mx-auto mb-4 grid max-w-sm grid-cols-2 rounded-xl border border-white/[0.07] bg-[#252522] p-1"
+          className="mx-auto mb-4 grid max-w-lg grid-cols-3 rounded-xl border border-white/[0.07] bg-[#252522] p-1"
         >
           <button
             type="button"
@@ -149,6 +154,14 @@ function App() {
             }`}
           >
             Mystery Challenge
+          </button>
+          <button
+            type="button"
+            aria-pressed={false}
+            onClick={() => setMode('eclipse')}
+            className="rounded-lg px-3 py-2.5 text-sm text-stone-400 transition hover:text-stone-100"
+          >
+            ECLIPSE
           </button>
         </nav>
 
